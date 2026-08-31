@@ -866,6 +866,10 @@ strong { font-weight: 600; color: var(--canopy-900); }
 .work-card--tall img { aspect-ratio: auto; height: 100%; }
 .work-card--wide { grid-column: span 3; }
 .work-card--wide img { aspect-ratio: 21 / 9; }
+/* For a full-width card whose subject is vertical: 21/9 would cut the top off,
+   so keep the photograph's own 16:9 frame. The responsive rules below still
+   override this at narrower widths. */
+.work-card--banner img { aspect-ratio: 16 / 9; }
 
 .work-card__meta {
     position: absolute;
