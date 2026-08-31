@@ -377,8 +377,12 @@ strong { font-weight: 600; color: var(--canopy-900); }
 }
 .site-header.is-stuck {
     box-shadow: 0 6px 24px rgba(28, 42, 18, .12);
-    background: rgba(245, 242, 233, .96);
-    backdrop-filter: saturate(180%) blur(8px);
+    background: var(--paper);
+    /* No backdrop-filter here. A filtered element becomes the containing block
+       for its position:fixed descendants, which would re-anchor the off-canvas
+       menu to the header and add its width to the document's scrollable area
+       (a blank strip you could pan to on mobile once the header stuck). The
+       background was 96% opaque anyway, so nothing is lost visually. */
 }
 
 .header-inner {
@@ -1237,6 +1241,11 @@ a.v:hover { color: var(--ember-dark); }
 
 /* 13. Motion & responsive
    ========================================================================== */
+@keyframes nav-slide-in {
+    from { transform: translateX(100%); }
+    to   { transform: none; }
+}
+
 /* Scoped to .js (set by an inline script in <head>) so that with scripting
    off the content is simply visible rather than stuck at opacity 0. */
 .js [data-reveal] {
@@ -1272,7 +1281,11 @@ a.v:hover { color: var(--ember-dark); }
 
     .nav-toggle { display: grid; }
 
+    /* Closed: display:none, so the panel has no geometry at all and cannot
+       extend the page sideways however its ancestors are painted. It slides in
+       with a keyframe on open; closing is immediate. */
     .primary-nav {
+        display: none;
         position: fixed;
         inset: 0 0 0 auto;
         width: min(340px, 84vw);
@@ -1280,20 +1293,12 @@ a.v:hover { color: var(--ember-dark); }
         border-left: 1px solid var(--rule);
         box-shadow: -18px 0 50px rgba(28, 42, 18, .18);
         padding: 96px 30px 40px;
-        transform: translateX(100%);
-        /* Hidden, not merely translated: a fixed panel parked outside the
-           viewport is still pannable on mobile Safari, which shows up as a
-           blank strip beside the page. visibility removes it until it opens,
-           delayed so the slide-out animation still plays. */
-        visibility: hidden;
-        transition: transform .34s var(--ease), visibility 0s linear .34s;
         overflow-y: auto;
         z-index: 70;
     }
     .primary-nav.is-open {
-        transform: none;
-        visibility: visible;
-        transition: transform .34s var(--ease), visibility 0s linear 0s;
+        display: block;
+        animation: nav-slide-in .32s var(--ease);
     }
     .primary-nav ul {
         flex-direction: column;
