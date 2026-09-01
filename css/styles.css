@@ -891,19 +891,33 @@ strong { font-weight: 600; color: var(--canopy-900); }
     color: rgba(255, 255, 255, .74);
 }
 
-/* Video feature. The clips are filmed on a phone and are portrait, so the
-   player is capped by height and centred rather than stretched to the column. */
-.video-figure { margin: 0; }
-.video-figure video {
-    display: block;
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 620px;
-    margin-inline: auto;
-    border-radius: 3px;
-    background: #000;
-    box-shadow: var(--shadow-md);
+/* Video card: sits in the grid like a photograph, with a play badge over the
+   still frame. The clip itself opens in the lightbox. */
+.work-card__play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(20, 30, 13, .5);
+    border: 2px solid rgba(255, 255, 255, .85);
+    display: grid;
+    place-items: center;
+    pointer-events: none;
+    transition: background-color .25s var(--ease), transform .25s var(--ease);
+}
+.work-card__play svg {
+    width: 20px;
+    height: 20px;
+    color: #fff;
+    margin-left: 3px;
+}
+.work-card:hover .work-card__play {
+    background: var(--ember);
+    border-color: #fff;
+    transform: translate(-50%, -50%) scale(1.06);
 }
 
 /* Lightbox */
@@ -918,13 +932,16 @@ strong { font-weight: 600; color: var(--canopy-900); }
     padding: 4vh 4vw;
 }
 .lightbox.is-open { display: flex; }
-.lightbox img {
+.lightbox img,
+.lightbox__video {
     max-width: 100%;
     max-height: 82vh;
     object-fit: contain;
     border-radius: 2px;
     box-shadow: 0 30px 80px rgba(0, 0, 0, .6);
 }
+.lightbox__video { background: #000; }
+.lightbox [hidden] { display: none; }
 .lightbox__caption {
     position: absolute;
     left: 0; right: 0; bottom: 3vh;
@@ -1375,7 +1392,6 @@ a.v:hover { color: var(--ember-dark); }
 @media (max-width: 620px) {
     body { font-size: 16px; }
 
-    .video-figure video { max-height: 70vh; }
 
     /* The header has to fit a logo, a wordmark and the menu button on a phone,
        so the quote button steps aside — the sticky WhatsApp bubble covers it. */

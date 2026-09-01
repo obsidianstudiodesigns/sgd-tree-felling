@@ -31,6 +31,9 @@
   <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
     <path d="M4 12h15"/><path d="m13 6 6 6-6 6"/>
   </symbol>
+  <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M8 5.1v13.8L19.2 12Z"/>
+  </symbol>
   <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
     <path d="M6 6l12 12M18 6 6 18"/>
   </symbol>
@@ -125,8 +128,8 @@
           <span class="work-card__meta"><strong>Plot clearing</strong><span>Chipped and cleared on site</span></span>
         </button>
 
-        <button class="work-card work-card--tall" data-lightbox data-caption="Storm damage &ndash; a large tree down across a dwelling, sectioned and lowered clear of the roof.">
-          <img src="assets/img/work/work-large-fell.jpg" alt="Arborist on a large storm-felled trunk lying across a brick house" width="1080" height="1440" loading="lazy">
+        <button class="work-card" data-lightbox data-caption="Storm damage &ndash; a large tree down across a dwelling, sectioned and lowered clear of the roof.">
+          <img src="assets/img/work/work-large-fell.jpg" alt="Arborist on a large storm-felled trunk lying across a brick house" width="1080" height="1440" loading="lazy" style="object-position:50% 45%">
           <span class="work-card__meta"><strong>Storm damage</strong><span>Large tree over a dwelling</span></span>
         </button>
 
@@ -150,6 +153,14 @@
           <span class="work-card__meta"><strong>Coastal thinning</strong><span>View line pruning</span></span>
         </button>
 
+        <button class="work-card work-card--video" data-lightbox
+                data-video="assets/video/large-tree-felling.mp4"
+                data-caption="Large tree felling: a pine coming down on a cleared site.">
+          <img src="assets/img/work/work-large-tree-felling-video.jpg" alt="Two tall pines against a mackerel sky, still frame from the felling video" width="576" height="432" loading="lazy">
+          <span class="work-card__play"><svg><use href="#i-play"></use></svg></span>
+          <span class="work-card__meta"><strong>Large tree felling</strong></span>
+        </button>
+
         <button class="work-card work-card--wide work-card--banner" data-lightbox data-caption="A tall trunk stripped of its limbs and taken down in sections, the climber working from the top on ropes.">
           <img src="assets/img/work/work-trunk-takedown.jpg" alt="SGD climber roped onto a tall stripped trunk, sectioning it down against a cloud-streaked sky" width="1376" height="768" loading="lazy">
           <span class="work-card__meta"><strong>Trunk take-down</strong><span>Sectioned from the top down</span></span>
@@ -165,25 +176,6 @@
       <div class="emergency-note" style="margin-top:44px" data-reveal>
         <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><use href="#i-instagram"></use></svg>
         <p>We post new jobs as we finish them. Follow <a href="https://www.instagram.com/sgdtreefelling/" target="_blank" rel="noopener">@sgdtreefelling</a> on Instagram or find us on <a href="https://www.facebook.com/share/18xreDXuV8/" target="_blank" rel="noopener">Facebook</a> for the latest.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section--paper2 grain">
-    <div class="shell">
-      <div class="split split--wide-right" style="align-items:center">
-        <figure class="video-figure" data-reveal>
-          <video src="assets/video/large-tree-felling.mp4"
-                 poster="assets/video/large-tree-felling-poster.jpg"
-                 controls playsinline preload="none"
-                 width="576" height="1280"></video>
-        </figure>
-        <div data-reveal data-reveal-delay="100">
-          <p class="eyebrow">On the job</p>
-          <h2>Large tree felling</h2>
-          <p class="lede">A pine coming down on a cleared site, filmed from the ground.</p>
-          <p>The clip runs about twenty seconds and it has sound on it.</p>
-        </div>
       </div>
     </div>
   </section>
@@ -263,6 +255,7 @@
   <button class="lightbox__nav lightbox__nav--prev" type="button" aria-label="Previous photo"><svg><use href="#i-chev-left"></use></svg></button>
   <button class="lightbox__nav lightbox__nav--next" type="button" aria-label="Next photo"><svg><use href="#i-chev-right"></use></svg></button>
   <img src="" alt="">
+  <video class="lightbox__video" controls playsinline preload="metadata" hidden></video>
   <p class="lightbox__caption"></p>
 </div>
 

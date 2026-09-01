@@ -85,6 +85,7 @@
 
     if (cards.length && box) {
         var boxImg = box.querySelector('img');
+        var boxVideo = box.querySelector('.lightbox__video');
         var boxCaption = box.querySelector('.lightbox__caption');
         var index = 0;
         var lastFocused = null;
@@ -93,15 +94,39 @@
             var img = card.querySelector('img');
             return {
                 src: card.getAttribute('data-full') || img.getAttribute('src'),
+                video: card.getAttribute('data-video') || '',
                 caption: card.getAttribute('data-caption') || img.getAttribute('alt') || ''
             };
         });
 
+        // A card may hold a clip rather than a photograph. Unloading the source
+        // on the way out stops it downloading in the background once closed.
+        function unloadVideo() {
+            if (!boxVideo) return;
+            boxVideo.pause();
+            boxVideo.removeAttribute('src');
+            boxVideo.load();
+            boxVideo.hidden = true;
+        }
+
         function show(i) {
             index = (i + items.length) % items.length;
-            boxImg.setAttribute('src', items[index].src);
-            boxImg.setAttribute('alt', items[index].caption);
-            boxCaption.textContent = items[index].caption;
+            var item = items[index];
+
+            unloadVideo();
+
+            if (item.video && boxVideo) {
+                boxImg.hidden = true;
+                boxVideo.hidden = false;
+                boxVideo.setAttribute('poster', item.src);
+                boxVideo.setAttribute('src', item.video);
+            } else {
+                boxImg.hidden = false;
+                boxImg.setAttribute('src', item.src);
+                boxImg.setAttribute('alt', item.caption);
+            }
+
+            boxCaption.textContent = item.caption;
         }
 
         function openBox(i) {
@@ -114,6 +139,7 @@
         }
 
         function closeBox() {
+            unloadVideo();
             box.classList.remove('is-open');
             box.setAttribute('aria-hidden', 'true');
             document.body.style.removeProperty('overflow');
@@ -135,6 +161,7 @@
         document.addEventListener('keydown', function (e) {
             if (!box.classList.contains('is-open')) return;
             if (e.key === 'Escape') closeBox();
+            if (e.target === boxVideo) return;
             if (e.key === 'ArrowLeft') show(index - 1);
             if (e.key === 'ArrowRight') show(index + 1);
         });
