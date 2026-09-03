@@ -26,13 +26,19 @@ python -m http.server 5173 --directory website
 
 Then open <http://localhost:5173>.
 
-## Publishing it
+## Where it is published
 
-Upload the whole `website` folder to any host — cPanel/FTP shared hosting,
-Netlify, Cloudflare Pages, GitHub Pages. Nothing server-side is required.
+Live at **https://sgdtreefelling.co.za**, served by GitHub Pages from the `main`
+branch of this repository. Push to `main` and the site rebuilds within a minute.
 
-If the files land in a subfolder, everything still works: all links and asset
-paths are relative.
+- `CNAME` holds the custom domain. Deleting it disconnects the domain.
+- DNS lives at GoDaddy: four `A` records on the apex pointing at GitHub Pages
+  (185.199.108–111.153) and a `www` CNAME to `obsidianstudiodesigns.github.io`,
+  which redirects to the apex.
+- HTTPS is enforced; the certificate renews automatically.
+
+Nothing server-side is required, so it can be moved to any static host. All
+links and asset paths are relative, so it also works from a subfolder.
 
 ## Business details used throughout
 
