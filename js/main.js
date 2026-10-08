@@ -4,6 +4,11 @@
 (function () {
     'use strict';
 
+    /* Send an event to Google Analytics if the Google tag has loaded. */
+    var track = function (name, params) {
+        if (typeof window.gtag === 'function') window.gtag('event', name, params);
+    };
+
     /* ---------------------------------------------------------------
        Sticky header state
        --------------------------------------------------------------- */
@@ -204,6 +209,12 @@
                 '— Sent from the SGD Tree Felling website'
             ];
 
+            track('generate_lead', {
+                method: 'quote_form',
+                service: get('service'),
+                town: get('town')
+            });
+
             window.location.href = 'mailto:' + address +
                 '?subject=' + encodeURIComponent(subject) +
                 '&body=' + encodeURIComponent(lines.join('\n'));
@@ -212,6 +223,33 @@
             if (status) status.classList.add('is-visible');
         });
     }
+
+    /* ---------------------------------------------------------------
+       Lead tracking
+       ---------------------------------------------------------------
+       Sends a Google Analytics event when a visitor taps a phone,
+       WhatsApp or email link. Mark these (and generate_lead from the
+       quote form) as key events in GA4, then import them into Google
+       Ads as conversions.
+       --------------------------------------------------------------- */
+    document.addEventListener('click', function (e) {
+        var link = e.target.closest ? e.target.closest('a[href]') : null;
+        if (!link) return;
+
+        var href = link.getAttribute('href');
+        var event = null;
+
+        if (href.indexOf('tel:') === 0) event = 'click_to_call';
+        else if (href.indexOf('https://wa.me/') === 0) event = 'whatsapp_click';
+        else if (href.indexOf('mailto:') === 0) event = 'email_click';
+
+        if (event) {
+            track(event, {
+                link_url: href,
+                link_text: (link.textContent || '').trim().slice(0, 100)
+            });
+        }
+    });
 
     /* ---------------------------------------------------------------
        Footer year
